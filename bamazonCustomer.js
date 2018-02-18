@@ -1,5 +1,6 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+var Table = require("cli-table");
 var connection = mysql.createConnection({
 	host:"localhost",
 	port:3306, 
@@ -11,12 +12,19 @@ connection.connect(function(err) {
 	if (err) throw err;
 	console.log("connected as id " + connection.threadId);
 	displayAllProduct();
-	promptOrder();
 });
 function displayAllProduct() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if(err) throw err;
-		console.log(res);
+		var table = new Table ({
+			head:['ID', 'Item', 'Size', 'Dept', '$', 'QTY'], colWidths: [5, 25, 8, 10, 4, 4]
+		});
+		for (var i = 0; i < res.length; i++) {
+     		table.push([res[i].id, res[i].product_name,res[i].size, res[i].department_name, res[i].price, res[i].stock_quantity]);
+   		}
+   		console.log(table.toString());
+   		promptOrder();
+		// console.log(res);
 	});
 }
 function promptOrder() {
