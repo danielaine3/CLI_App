@@ -17,7 +17,7 @@ function displayAllProduct() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if(err) throw err;
 		var table = new Table ({
-			head:['ID', 'Item', 'Size', 'Dept', '$', 'QTY'], colWidths: [5, 25, 8, 10, 4, 4]
+			head:['ID', 'Item', 'Size', 'Dept', '$', 'QTY'], colWidths: [4, 23, 8, 10, 4, 6]
 		});
 		for (var i = 0; i < res.length; i++) {
      		table.push([res[i].id, res[i].product_name,res[i].size, res[i].department_name, res[i].price, res[i].stock_quantity]);
@@ -126,10 +126,10 @@ function endShopping() {
 		}
 	]).then(function(choice){
 		if (choice.done == 'yes') {
-			console.log("Thank you for shopping with us. Goodbye!\n");		
+			console.log("Thank you for shopping with us. Goodbye!\n");	
+			connection.end();		
 		} else if (choice.done == 'no') {
 			promptOrder();
 		}
 	});
-	connection.end();
 }
