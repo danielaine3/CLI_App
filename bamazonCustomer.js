@@ -11,6 +11,7 @@ connection.connect(function(err) {
 	if (err) throw err;
 	console.log("connected as id " + connection.threadId);
 	displayAllProduct();
+	promptOrder();
 });
 function displayAllProduct() {
 	connection.query("SELECT * FROM products", function(err, res) {
@@ -52,34 +53,38 @@ function promptOrder() {
 			}
 		}
 	]).then(function(answer) {
-		if(answer.purchaseId ) {
-
-			//Update SQL database to reflect remaining quantity
-			updateProduct();
-			//Show customer total cost of purchse
-
-
-		} else {
-			console.log("Quantity not available. Unable to place order.");
-			inquirer.prompt([
-				{
-					type: 'list',
-					message: 'Try again?',
-					choices: ['yes', 'no'],
-					name: 'again'
-				}
-				]).then(function(choice){
-					if (choice.again == 'yes') {
-						promptOrder();
-					} else if (choice.again == 'no') {
-						connection.end();
-					}
-				}
-			);
-		}
+			checkQuantity();
+			//Show customer total cost of purchase
 	});
-};
-
+}
+function checkQuantity() {
+	console.log("Checking stock of prodcut ID: " + answer.purchaseId);
+	//check if quanitity is available
+	if (
+		//quantity in DB - answer.quantity > 0
+		){
+		//Update SQL database to reflect remaining quantity
+		updateProduct();
+		//Show customer total cost of purchase: answer.quantity * DB price
+	} else {
+		console.log("Quantity not available. Unable to place order.");
+		inquirer.prompt([
+			{
+				type: 'list',
+				message: 'Try again?',
+				choices: ['yes', 'no'],
+				name: 'again'
+			}
+			]).then(function(choice){
+				if (choice.again == 'yes') {
+					promptOrder();
+				} else if (choice.again == 'no') {
+					connection.end();
+				}
+			}
+		);
+	}
+}
 function updateProduct() {
 	console.log("Updating quantity of product ID: " + answer.purchaseId);
 	var query = connection.query(
@@ -96,4 +101,3 @@ function updateProduct() {
 		}
 	)
 }
-
