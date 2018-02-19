@@ -19,7 +19,7 @@ function managerSelect() {
 		{
 			type: 'list',
 			message: 'Please make a selection.',
-			choices: ['View Products', 'View low inventory', 'Add inventory', 'Add new product'],
+			choices: ['View Products', 'View low inventory', 'Add inventory', 'Add new product', 'Exit'],
 			name: 'managerSelect'
 		}
 	]).then(function(choice){
@@ -31,6 +31,8 @@ function managerSelect() {
 			addInventory();
 		} else if (choice.managerSelect == 'Add new product') {
 			addProduct();
+		} else if (choice.managerSelect == 'Exit') {
+			exit();
 		}
 	});
 }
@@ -44,6 +46,7 @@ function displayAllProduct() {
      		table.push([res[i].id, res[i].product_name,res[i].size, res[i].department_name, res[i].price, res[i].stock_quantity]);
    		}
    		console.log(table.toString());
+   			exit();
 	});
 }
 function lowInventory() {
@@ -60,35 +63,55 @@ function lowInventory() {
 		   	}  	
 		}
 		console.log(lowInventoryTable.toString());
+		exit();
 	});
 }
 function addInventory() {
-	inquirer.prompt([
-		{
-			type: 'list',
-			message: 'Please select product.',
-			choices: [''],
-			name: 'product_name'
-		}
-		{
-			type: 'input',
-			message: 'Please enter quantity adding.',
-			name: 'quantity'
-		}
-	]).then(function(userInput){
-		console.log("Updating inventory for " + userInput.product_name + ".\n");
-		var sql = connection.query(
-			"UPDATE products SET ? WHERE ?",
-			{
-			product_name: userInput.product_name,
-			stock_quantity: userInput.quantity,	
-			}, 
-			function(err, res) {
-				if(err) throw err;
-				console.log("Inventory for: " + userInput.product_name + "added!")
+	console.log("Pulling up current product options");
+	var query = "SELECT * FROM products";
+	connection.query(query, function(error, response) {
+		if (error) throw error;
+		var choices = [];
+
+		for (var i in response) {
+			var product = {
+				"name": response[i].product_name +' '+response[i].size,
+				"value": response[i].id
 			}
-		)
-	});
+			choices.push(product);
+		}
+		console.log(choices);
+		inquirer.prompt([
+			{
+				type: 'list',
+				message: 'Please select product.',
+				choices: choices,
+				name: 'product_id'
+			},
+			{
+				type: 'input',
+				message: 'Please enter quantity adding.',
+				name: 'quantity'
+			}
+		]).then(function(userInput){
+			console.log(userInput.product_id);
+			// console.log("Updating inventory for " + userInput.product_name + ".\n");
+			var sql = connection.query(
+				"UPDATE products SET ? WHERE ?",
+				[{
+				id: userInput.product_id
+				},
+				{	
+				stock_quantity: userInput.quantity	
+				}], 
+				function(err, res) {
+					if(err) throw err;
+					console.log("Inventory for: " + userInput.product_id + "added!")
+					exit();
+				}
+			)
+		});	
+	})
 }
 function addProduct() {
 	inquirer.prompt([
@@ -130,12 +153,26 @@ function addProduct() {
 			}, 
 			function(err, res) {
 				if(err) throw err;
-				console.log("New product: " + userInput.product_name + "added!")
+				console.log("New product: " + userInput.product_name + " added!")
+				exit();
 			}
 		)
 	});
 }	
-
-
-
-
+function exit() {
+	inquirer.prompt([
+		{
+			type: 'list',
+			message: 'Done?',
+			choices: ['yes', 'no'],
+			name: 'done'
+		}
+	]).then(function(choice){
+		if (choice.done == 'yes') {
+			console.log("Now exiting Bamazon Manager View.\n");	
+			connection.end();		
+		} else if (choice.done == 'no') {
+			managerSelect();
+		}
+	});
+}	
