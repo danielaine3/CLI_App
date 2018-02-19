@@ -39,3 +39,12 @@ VALUES ("Navy Sweatpants", "XS", "Adults", 16, 8),
 ("P is for Prima Hoodie", "4T", "Youth", 14, 6), 
 ("P is for Prima Hoodie", "5T", "Youth", 14, 6);
 
+CREATE TABLE departments (
+department_id INTEGER(10) AUTO_INCREMENT NOT NULL, 
+department_name VARCHAR(30),
+over_head_costs INTEGER(10),
+PRIMARY KEY (department_id)
+);
+
+ALTER TABLE products 
+ADD COLUMN product_sales INTEGER(10) AFTER stock_quantity;
