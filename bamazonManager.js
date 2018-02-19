@@ -67,12 +67,11 @@ function lowInventory() {
 	});
 }
 function addInventory() {
-	console.log("Pulling up current product options");
+	console.log("Pulling up current product options.");
 	var query = "SELECT * FROM products";
 	connection.query(query, function(error, response) {
 		if (error) throw error;
 		var choices = [];
-
 		for (var i in response) {
 			var product = {
 				"name": response[i].product_name +' '+response[i].size,
@@ -80,7 +79,6 @@ function addInventory() {
 			}
 			choices.push(product);
 		}
-		console.log(choices);
 		inquirer.prompt([
 			{
 				type: 'list',

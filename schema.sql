@@ -14,7 +14,6 @@ stock_quantity INTEGER(10),
 PRIMARY KEY (id)
 );
 
-
 INSERT INTO products (product_name, size, department_name, price, stock_quantity)
 VALUES ("Navy Sweatpants", "XS", "Adults", 16, 8), 
 ("Navy Sweatpants", "S", "Adults", 16, 8), 
