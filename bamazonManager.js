@@ -18,7 +18,7 @@ function managerSelect() {
 	inquirer.prompt([
 		{
 			type: 'list',
-			message: 'Please make a selection.',
+			message: 'Bamazon Manager View',
 			choices: ['View Products', 'View low inventory', 'Add inventory', 'Add new product', 'Exit'],
 			name: 'managerSelect'
 		}
