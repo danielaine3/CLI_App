@@ -17,7 +17,7 @@ function displayAllProduct() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if(err) throw err;
 		var table = new Table ({
-			head:['ID', 'Item', 'Size', 'Dept', '$', 'QTY'], colWidths: [4, 23, 8, 10, 4, 6]
+			head:['ID', 'Item', 'Size', 'Dept', '$', 'QTY',], colWidths: [4, 23, 8, 10, 4, 6]
 		});
 		for (var i = 0; i < res.length; i++) {
      		table.push([res[i].id, res[i].product_name,res[i].size, res[i].department_name, res[i].price, res[i].stock_quantity]);
@@ -75,6 +75,10 @@ function promptOrder() {
 						//Show customer total cost of purchase: answer.quantity * DB price
 						var total = res[i].price * answer.quantity;
 						console.log("Total cost: " + total);
+
+						//Update total sales of product
+						var totalSales = res[i].product_sales + total;
+						updateTotalSales();
 						endShopping();
 					} else {
 						console.log("Quantity not available. Unable to place order.\n");
@@ -103,6 +107,20 @@ function promptOrder() {
 						[{
 							//current quantity - customer order
 							stock_quantity:res[i].stock_quantity - answer.quantity
+						},
+						{
+							id: answer.purchaseId
+						}],
+						function (err, res) {
+							if (err) throw err;
+						}
+					)
+				}
+				function updateTotalSales() {
+					var query = connection.query(
+						"UPDATE products SET ? WHERE ?",
+						[{
+							product_sales:totalSales
 						},
 						{
 							id: answer.purchaseId

@@ -24,7 +24,7 @@ function supervisorSelect() {
 		}
 	]).then(function(choice){
 		if (choice.supervisorSelect == 'View Product Sales by Department') {
-			displayProductsByDepartment();
+			displaySalesByDepartment();
 		} else if (choice.supervisorSelect == 'Create New Department') {
 			createDepartment();
 		} else if (choice.supervisorSelect == 'Exit') {
@@ -32,9 +32,9 @@ function supervisorSelect() {
 		}
 	});
 }
-function displayProductsByDepartment() {
+function displaySalesByDepartment() {
 	console.log("Pulling up current department options.");
-	var query = "SELECT * FROM products";
+	var query = "SELECT * FROM departments";
 	connection.query(query, function(error, response) {
 		if(error) throw error;
 		var deptOptions = [];
@@ -49,7 +49,7 @@ function displayProductsByDepartment() {
 			{
 				type: 'list',
 				message: 'Select department to view.',
-				choices: deptOptions,
+				choices: options,
 				name: 'supervisorSelect'
 			}
 		]).then(function(answer){
@@ -57,7 +57,7 @@ function displayProductsByDepartment() {
 			connection.query(sql, function(err, res) {
 				if(err) throw err;
 				var table = new Table ({
-					head:['ID', 'Item', 'Size', 'Dept', '$', 'QTY'], colWidths: [4, 23, 8, 10, 4, 6]
+					head:['ID', 'Dept', 'Overhead', 'Sales', 'Profit'], colWidths: [4, 10, 6, 6, 6]
 				});
 				for (var i = 0; i < res.length; i++) {
 		     		table.push([res[i].id, res[i].product_name,res[i].size, res[i].department_name, res[i].price, res[i].stock_quantity]);
@@ -80,15 +80,11 @@ function createDepartment() {
 		var sql = connection.query(
 			"INSERT INTO products SET ?",
 			{
-			product_name: userInput.product_name,
-			size: userInput.size,
 			department_name: userInput.department_name,
-			price: userInput.price,
-			stock_quantity: userInput.quantity,	
 			}, 
 			function(err, res) {
 				if(err) throw err;
-				console.log("New product: " + userInput.product_name + " added!")
+				console.log("New department: " + userInput.department_name + " added!")
 				exit();
 			}
 		)
