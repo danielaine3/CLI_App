@@ -53,14 +53,13 @@ function displaySalesByDepartment() {
 				name: 'supervisorSelect'
 			}
 		]).then(function(answer){
-			var sql = "SELECT * FROM products WHERE department_name=?" + connection.escape(answer.supervisorSelect);
-			connection.query(sql, function(err, res) {
+			connection.query("SELECT * FROM departments" , function(err, res) {
 				if(err) throw err;
 				var table = new Table ({
 					head:['ID', 'Dept', 'Overhead', 'Sales', 'Profit'], colWidths: [4, 10, 6, 6, 6]
 				});
 				for (var i = 0; i < res.length; i++) {
-		     		table.push([res[i].id, res[i].product_name,res[i].size, res[i].department_name, res[i].price, res[i].stock_quantity]);
+		     		table.push([res[i].id, res[i].department_name,res[i].over_head_costs, res[i].product_sales, res[i].price, totalProfit]);
 		   		}
 		   		console.log(table.toString());
 		   		exit();
