@@ -49,7 +49,7 @@ function displaySalesByDepartment() {
 			{
 				type: 'list',
 				message: 'Select department to view.',
-				choices: options,
+				choices: deptOptions,
 				name: 'supervisorSelect'
 			}
 		]).then(function(answer){
