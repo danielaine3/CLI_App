@@ -68,13 +68,19 @@ function createDepartment() {
 			type: 'input',
 			message: 'Please enter new department name.',
 			name: 'department_name'
+		},
+		{
+			type: 'input',
+			message: 'Please enter new department overhead costs',
+			name: 'overhead'
 		}
 	]).then(function(userInput){
 		console.log("Adding new department option.\n");
 		var sql = connection.query(
-			"INSERT INTO products SET ?",
+			"INSERT INTO departments SET ?",
 			{
-			department_name: userInput.department_name,
+				department_name: userInput.department_name,
+				over_head_costs: userInput.overhead,
 			}, 
 			function(err, res) {
 				if(err) throw err;
