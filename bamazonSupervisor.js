@@ -23,6 +23,18 @@ function supervisorSelect() {
 			name: 'supervisorSelect'
 		}
 	]).then(function(choice){
+		// switch(choice) {
+		// 	case 'View Product Sales by Department':
+		// 		displaySalesByDepartment();
+		// 		break;
+		// 	case 'Create New Department':
+		// 		createDepartment();
+		// 		break;
+		// 	case 'Exit':
+		// 		exit();
+		// 	default:
+		// 		console.log("error");
+		// }
 		if (choice.supervisorSelect == 'View Product Sales by Department') {
 			displaySalesByDepartment();
 		} else if (choice.supervisorSelect == 'Create New Department') {
