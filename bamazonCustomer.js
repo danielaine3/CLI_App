@@ -60,7 +60,7 @@ function promptOrder() {
 			}
 		}
 	]).then(function(answer) {
-			checkQuantity();
+		checkQuantity();
 		function checkQuantity() {
 			console.log("Checking stock of product ID:" + answer.purchaseId);
 			//check if quanitity is available
