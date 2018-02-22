@@ -44,6 +44,11 @@ department_name VARCHAR(30),
 over_head_costs INTEGER(10),
 PRIMARY KEY (department_id)
 );
+INSERT INTO departments ( department_name, over_head_costs)
+VALUES ("Adults", 10000),
+("Baby", 2000),
+("Toddler", 5000),
+("Accessories", 1000)
 
 ALTER TABLE products 
 ADD COLUMN product_sales INTEGER(10) AFTER stock_quantity;
