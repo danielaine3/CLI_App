@@ -53,7 +53,7 @@ function displaySalesByDepartment() {
 	// 			name: 'supervisorSelect'
 	// 		}
 	// 	]).then(function(answer){
-			var sql = "SELECT * FROM departments LEFT JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_id"; 
+			var sql = "SELECT FROM products departments LEFT JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_id"; 
 			// GROUP BY departments.department_id";
 			// departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales, (products.product_sales - departments.over_head_costs) AS total_sales 
 
@@ -78,6 +78,20 @@ function createDepartment() {
 			type: 'input',
 			message: 'Please enter new department name.',
 			name: 'department_name'
+		},
+		{
+			type: 'input',
+			message: 'Please enter new department overhead costs.',
+			name: 'over_head_costs',
+			validate: function(value) {
+				var num = /[0-9]+/;
+				if (value.length < 1) {
+					return "Please enter a number.";
+				} else if (value.match(num)) {
+					return true;
+				} else {
+					return "Invalid number.";
+				}
 		}
 	]).then(function(userInput){
 		console.log("Adding new department option.\n");
@@ -86,6 +100,9 @@ function createDepartment() {
 			{
 			department_name: userInput.department_name,
 			}, 
+			{
+				over_head_costs: userInput.over_head_costs,
+			}
 			function(err, res) {
 				if(err) throw err;
 				console.log("New department: " + userInput.department_name + " added!")
