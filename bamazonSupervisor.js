@@ -58,16 +58,15 @@ function displaySalesByDepartment() {
 				"RIGHT JOIN departments ON products.department_name = departments.department_name";
 			connection.query(sql, function(err, res) {
 				if(err) throw err;
-				console.log(res);
-
 				var table = new Table ({
-					head:['ID', 'Dept', 'Overhead', 'Sales', 'Profit'], colWidths: [4, 10, 6, 6, 6]
+					head:['ID', 'Dept', 'Overhead', 'Sales', 'Profit'], colWidths: [4, 15, 10, 10, 10]
 				});
 				for (var i = 0; i < res.length; i++) {
 					var totalSales = (res[i].product_sales - res[i].over_head_costs);
-		     		table.push([res[i].department_id, res[i].department_name,res[i].over_head_costs, res[i].product_sales, totalSales]);
+		     		table.push([res[i].department_id, res[i].department_name, res[i].over_head_costs, 
+		     			res[i].product_sales, totalSales]);
 		   		}
-		   		console.log(table);
+		   		console.log(table.toString());
 		   		exit();
 			});
 	
@@ -107,7 +106,7 @@ function exit() {
 			console.log("Now exiting Bamazon Supervisor View.\n");	
 			connection.end();		
 		} else if (choice.done == 'no') {
-			managerSelect();
+			supervisorSelect();
 		}
 	});
 }	
