@@ -2,7 +2,7 @@
 ## A command-line store front for the Parnassus school store
 Includes:
 1. A customer platform that prompts the user to buy product
-![ScreenShot](/images/Customer1)
+![ScreenShot](/images/Customer1.png)
 ![ScreenShot](/images/Customer2)
 ![ScreenShot](/images/Customer3)
 ![ScreenShot](/images/Customer4)
