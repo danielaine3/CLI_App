@@ -1,12 +1,12 @@
 # CLI_APP: Parnassus Preparatory School Store
  A command-line store front for the Parnassus school store
 
-## 1. A customer platform that prompts the user to buy product
+## 1. A customer platform that prompts the customer to buy product
 **Step 1:**
 It shows a list of all products in inventory.
 ![ScreenShot](/images/Customer1.png)
 **Step 2:**
-The user selects which item they would like to purchase by entering the item ID and how many be entering the qantity they would like to buy.
+The customer selects which item they would like to purchase by entering the item ID and how many be entering the qantity they would like to buy.
 ![ScreenShot](/images/Customer2.png)
 **Step 3:**
 If enough quantity is in stock, a receipt will print.
@@ -27,7 +27,7 @@ If there is not enough quantity in stock
     Then asks for the quantity of the item you're adding. Once complete it lets you know that the inventory has been added and asks it you are done.
     ![ScreenShot](/images/Manager5.png)
     **Add new product:**
-    Prompts the user to enter the product name, size, department the product belongs in, retail price and the quantity being added.
+    Prompts the manager to enter the product name, size, department the product belongs in, retail price and the quantity being added.
     ![ScreenShot](/images/Manager6.png)
     After it has added the new product it will confirm the addition then ask if you are done. If you select yes, it will let you know it's exiting the Bamazon Manager view. If you select no, it will take you back to the main manager menu.
     ![ScreenShot](/images/Manager7.png)
