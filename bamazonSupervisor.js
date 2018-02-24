@@ -23,18 +23,6 @@ function supervisorSelect() {
 			name: 'supervisorSelect'
 		}
 	]).then(function(choice){
-		// switch(choice) {
-		// 	case 'View Product Sales by Department':
-		// 		displaySalesByDepartment();
-		// 		break;
-		// 	case 'Create New Department':
-		// 		createDepartment();
-		// 		break;
-		// 	case 'Exit':
-		// 		exit();
-		// 	default:
-		// 		console.log("error");
-		// }
 		if (choice.supervisorSelect == 'View Product Sales by Department') {
 			displaySalesByDepartment();
 		} else if (choice.supervisorSelect == 'Create New Department') {
@@ -48,6 +36,7 @@ function displaySalesByDepartment() {
 	var sql = "SELECT departments.department_id, products.department_name, departments.department_name, " + 
 		"departments.over_head_costs, products.product_sales FROM products " + 
 		"RIGHT JOIN departments ON products.department_name = departments.department_name";
+	// var sql = "SELECT department_name,  FROM departments  "
 	connection.query(sql, function(err, res) {
 		if(err) throw err;
 		var table = new Table ({
