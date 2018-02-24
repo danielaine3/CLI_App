@@ -19,38 +19,38 @@ function supervisorSelect() {
 		{
 			type: 'list',
 			message: 'Bamazon Supervisor View',
-			choices: ['View Product Sales by Department', 'Create New Department', 'Exit'],
+			choices: ['Create New Department', 'Exit'],
 			name: 'supervisorSelect'
 		}
 	]).then(function(choice){
-		if (choice.supervisorSelect == 'View Product Sales by Department') {
-			displaySalesByDepartment();
-		} else if (choice.supervisorSelect == 'Create New Department') {
+		// if (choice.supervisorSelect == 'View Product Sales by Department') {
+		// 	displaySalesByDepartment();
+		if (choice.supervisorSelect == 'Create New Department') {
 			createDepartment();
 		} else if (choice.supervisorSelect == 'Exit') {
 			exit();
 		}
 	});
 }
-function displaySalesByDepartment() {
-	var sql = "SELECT departments.department_id, products.department_name, departments.department_name, " + 
-		"departments.over_head_costs, products.product_sales FROM products " + 
-		"RIGHT JOIN departments ON products.department_name = departments.department_name";
-	// var sql = "SELECT department_name,  FROM departments  "
-	connection.query(sql, function(err, res) {
-		if(err) throw err;
-		var table = new Table ({
-			head:['ID', 'Dept', 'Overhead', 'Sales', 'Profit'], colWidths: [4, 15, 10, 10, 10]
-		});
-		for (var i = 0; i < res.length; i++) {
-			var totalSales = (res[i].product_sales - res[i].over_head_costs);
-     		table.push([res[i].department_id, res[i].department_name, res[i].over_head_costs, 
-     			res[i].product_sales, totalSales]);
-   		}
-   		console.log(table.toString());
-   		exit();
-	});	
-}
+// function displaySalesByDepartment() {
+// 	var sql = "SELECT departments.department_id, products.department_name, departments.department_name, " + 
+// 		"departments.over_head_costs, products.product_sales FROM products " + 
+// 		"RIGHT JOIN departments ON products.department_name = departments.department_name";
+// 	// var sql = "SELECT department_name,  FROM departments  "
+// 	connection.query(sql, function(err, res) {
+// 		if(err) throw err;
+// 		var table = new Table ({
+// 			head:['ID', 'Dept', 'Overhead', 'Sales', 'Profit'], colWidths: [4, 15, 10, 10, 10]
+// 		});
+// 		for (var i = 0; i < res.length; i++) {
+// 			var totalSales = (res[i].product_sales - res[i].over_head_costs);
+//      		table.push([res[i].department_id, res[i].department_name, res[i].over_head_costs, 
+//      			res[i].product_sales, totalSales]);
+//    		}
+//    		console.log(table.toString());
+//    		exit();
+// 	});	
+// }
 function createDepartment() {
 	inquirer.prompt([
 		{

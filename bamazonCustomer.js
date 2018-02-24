@@ -62,7 +62,7 @@ function promptOrder() {
 	]).then(function(answer) {
 		checkQuantity();
 		function checkQuantity() {
-			console.log("Checking stock of product ID:" + answer.purchaseId);
+			console.log("Checking stock of product " + answer.purchaseId);
 			//check if quanitity is available
 			var sql = "SELECT * FROM products WHERE id=" + connection.escape(answer.purchaseId);
 			connection.query(sql, function(err, res) {
@@ -74,11 +74,18 @@ function promptOrder() {
 						updateProduct();
 						//Show customer total cost of purchase: answer.quantity * DB price
 						var total = res[i].price * answer.quantity;
-						console.log("Total cost: " + total);
-
 						//Update total sales of product
 						var totalSales = res[i].product_sales + total;
 						updateTotalSales();
+
+						var table = new Table ({
+							head:['Item', 'Size', 'QTY', 'Total'], colWidths: [23, 8, 6, 8]
+						});
+						for (var i = 0; i < res.length; i++) {
+				     		table.push([res[i].product_name,res[i].size, answer.quantity, "$" + total]);
+				   		}
+				   		
+				   		console.log(table.toString());
 						endShopping();
 					} else {
 						console.log("Quantity not available. Unable to place order.\n");
@@ -100,12 +107,9 @@ function promptOrder() {
 					}
 				}
 				function updateProduct() {
-					console.log("Updating quantity of product ID: " + answer.purchaseId);
-					console.log("New quantity: " + newQuantity);
 					var query = connection.query(
 						"UPDATE products SET ? WHERE ?",
 						[{
-							//current quantity - customer order
 							stock_quantity:res[i].stock_quantity - answer.quantity
 						},
 						{
