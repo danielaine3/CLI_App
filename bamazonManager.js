@@ -104,7 +104,7 @@ function addInventory() {
 				}], 
 				function(err, res) {
 					if(err) throw err;
-					console.log("Inventory for: " + userInput.product_id + "added!")
+					console.log("Inventory added!")
 					exit();
 				}
 			)
